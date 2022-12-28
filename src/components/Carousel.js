@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, } from "react";
 import "./Carousel.css";
 import { images } from "../data/CarouselData";
 // you can explore more - and check as how to use materiul ui
@@ -6,55 +6,38 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 // implement the class below
-export default class Carousel extends Component {
-    constructor(props){
-        super(props)
-
-        this.state={
-            value:0,
-        }
-    }
-    random(){
-        let set=this.state.value
-        if(set>1){
-            set=0;
+function Carousel()  {
+   const[img,set]=useState(0)
+   const random=()=>{
+        if(img<2){
+            set(img+1);
         }
         else{
-            set+=1;
+            set(0)
         }
-        this.setState({
-            value:set,
-        })
     }
-    back(){
-        let set=this.state.value
-        if(set<=0){
-            set=2;
+   const back=()=>{
+        if(img>0){
+            set(img-1);
         }
         else{
-            set-=1;
+            set(2);
         }
-        this.setState({
-            value:set,
-        })
     }
-    render(){
-        let data=images[this.state.value]
+    
         return(
             <div className="container">
                  <div id="backicon">
-                < ArrowBackIosIcon className="back" onClick={()=>{this.back()}}/>
+                < ArrowBackIosIcon className="back" onClick={back}/>
                 </div>
-                <h1 className="title">{data.title}</h1>
-                <img className="img" src={data.img} alt=''/>
-                <p className="para">{data.subtitle}</p>
+                <h1 className="title">{images[img].title}</h1>
+                <img className="img" src={images[img].img} alt=''/>
+                <p className="para">{images[img].subtitle}</p>
                 <div id="nexticon">
-                < ArrowForwardIosIcon className="front" onClick={()=>{this.random()}} />
+                < ArrowForwardIosIcon className="front" onClick={random} />
                 </div>
             </div>
         )
-        
-        
-    }
 }
 
+export default Carousel;
